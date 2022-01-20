@@ -17,46 +17,42 @@ class TennisGame1
   end
   
   def score
-
-    if sameScore()
-      return {
+    result = ""
+    tempScore=0
+    if (@p1points==@p2points)
+      result = {
           0 => "Love-All",
           1 => "Fifteen-All",
           2 => "Thirty-All",
       }.fetch(@p1points, "Deuce")
-    elsif atLeastOneScoreGreaterOrEqualTo4()
+    elsif (@p1points>=4 or @p2points>=4)
       minusResult = @p1points-@p2points
       if (minusResult==1)
-        return "Advantage player1"
+        result ="Advantage player1"
       elsif (minusResult ==-1)
-        return "Advantage player2"
+        result ="Advantage player2"
       elsif (minusResult>=2)
-        return "Win for player1"
+        result = "Win for player1"
       else
-        return "Win for player2"
+        result ="Win for player2"
       end
     else
-      return resultNameFor(@p1points) + "-" + resultNameFor(@p2points)
+      (1...3).each do |i|
+        if (i==1)
+          tempScore = @p1points
+        else
+          result+="-"
+          tempScore = @p2points
+        end
+        result += {
+            0 => "Love",
+            1 => "Fifteen",
+            2 => "Thirty",
+            3 => "Forty",
+        }[tempScore]
+      end
     end
-  end
-
-  private
-
-  def resultNameFor(point)
-    return {
-      0 => "Love",
-      1 => "Fifteen",
-      2 => "Thirty",
-      3 => "Forty",
-    }[point]
-  end
-
-  def atLeastOneScoreGreaterOrEqualTo4
-    @p1points >= 4 or @p2points >= 4
-  end
-
-  def sameScore
-    @p1points == @p2points
+    result
   end
 end
 
