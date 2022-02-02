@@ -1,10 +1,7 @@
 
 class TennisGame1
 
-  # @param [String] player1Name
-  # @param [String] player2Name
-  # Inizializza il punteggio
-  # @p1points = 0 e @p2points = 0
+
   def initialize(player1Name, player2Name)
     @player1Name = player1Name
     @player2Name = player2Name
@@ -13,7 +10,7 @@ class TennisGame1
   end
         
   def won_point(playerName)
-    if playerName == "player1"
+    if playerName == @player1Name
       @p1points += 1
     else
       @p2points += 1
@@ -21,42 +18,70 @@ class TennisGame1
   end
   
   def score
-    result = ""
-    tempScore=0
-    if (@p1points==@p2points)
-      result = {
-          0 => "Love-All",
-          1 => "Fifteen-All",
-          2 => "Thirty-All",
-      }.fetch(@p1points, "Deuce")
-    elsif (@p1points>=4 or @p2points>=4)
-      minusResult = @p1points-@p2points
-      if (minusResult==1)
-        result ="Advantage player1"
-      elsif (minusResult ==-1)
-        result ="Advantage player2"
-      elsif (minusResult>=2)
-        result = "Win for player1"
-      else
-        result ="Win for player2"
-      end
+
+    if is_draw
+      compute_draw
+    elsif is_advantage_player
+      compute_advantage
     else
-      (1...3).each do |i|
-        if (i==1)
-          tempScore = @p1points
-        else
-          result+="-"
-          tempScore = @p2points
-        end
-        result += {
-            0 => "Love",
-            1 => "Fifteen",
-            2 => "Thirty",
-            3 => "Forty",
-        }[tempScore]
+      compute_ongoing
+    end
+
+  end
+
+  private
+
+  def compute_ongoing
+    result = ""
+    (1...3).each do |i|
+
+      if (i == 1)
+        tempScore = @p1points
+      else
+        result += "-"
+        tempScore = @p2points
       end
+
+      result += {
+        0 => "Love",
+        1 => "Fifteen",
+        2 => "Thirty",
+        3 => "Forty",
+      }[tempScore]
     end
     result
+  end
+
+  def compute_advantage
+
+    minusResult = @p1points - @p2points
+
+    if (minusResult == 1)
+      "Advantage player1"
+    elsif (minusResult == -1)
+      "Advantage player2"
+    elsif (minusResult >= 2)
+      "Win for player1"
+    else
+      "Win for player2"
+    end
+
+  end
+
+  def compute_draw
+    {
+      0 => "Love-All",
+      1 => "Fifteen-All",
+      2 => "Thirty-All",
+    }.fetch(@p1points, "Deuce")
+  end
+
+  def is_advantage_player
+    @p1points >= 4 or @p2points >= 4
+  end
+
+  def is_draw
+    @p1points == @p2points
   end
 end
 
