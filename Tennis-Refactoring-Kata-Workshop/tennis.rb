@@ -2,6 +2,13 @@
 class TennisGame1
 
 
+  SCORES = {
+    0 => "Love",
+    1 => "Fifteen",
+    2 => "Thirty",
+    3 => "Forty",
+  }
+
   def initialize(player1Name, player2Name)
     @player1Name = player1Name
     @player2Name = player2Name
@@ -32,24 +39,7 @@ class TennisGame1
   private
 
   def compute_ongoing
-    result = ""
-    (1...3).each do |i|
-
-      if (i == 1)
-        tempScore = @p1points
-      else
-        result += "-"
-        tempScore = @p2points
-      end
-
-      result += {
-        0 => "Love",
-        1 => "Fifteen",
-        2 => "Thirty",
-        3 => "Forty",
-      }[tempScore]
-    end
-    result
+    "#{SCORES[@p1points]}-#{SCORES[@p2points]}"
   end
 
   def compute_advantage
