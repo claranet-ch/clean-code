@@ -1,6 +1,10 @@
 
 class TennisGame1
 
+  # @param [String] player1Name
+  # @param [String] player2Name
+  # Inizializza il punteggio
+  # @p1points = 0 e @p2points = 0
   def initialize(player1Name, player2Name)
     @player1Name = player1Name
     @player2Name = player2Name
