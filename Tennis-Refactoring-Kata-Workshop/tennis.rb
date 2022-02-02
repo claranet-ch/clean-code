@@ -28,6 +28,8 @@ class TennisGame1
 
     if is_draw
       compute_draw
+    elsif is_finish
+      compute_victory
     elsif is_advantage_player
       compute_advantage
     else
@@ -43,19 +45,39 @@ class TennisGame1
   end
 
   def compute_advantage
-
-    minusResult = @p1points - @p2points
-
-    if (minusResult == 1)
+    if p1_advantage
       "Advantage player1"
-    elsif (minusResult == -1)
+    elsif p2_advantage
       "Advantage player2"
-    elsif (minusResult >= 2)
+    end
+  end
+
+  def compute_victory
+    if p1_win
       "Win for player1"
-    else
+    elsif p2_win
       "Win for player2"
     end
+  end
 
+  def p1_win
+    is_finish && (@p1points > @p2points)
+  end
+
+  def p2_win
+    is_finish && (@p1points < @p2points)
+  end
+
+  def p2_advantage
+    minus_result == -1
+  end
+
+  def p1_advantage
+    minus_result == 1
+  end
+
+  def minus_result
+    @p1points - @p2points
   end
 
   def compute_draw
@@ -64,6 +86,14 @@ class TennisGame1
       1 => "Fifteen-All",
       2 => "Thirty-All",
     }.fetch(@p1points, "Deuce")
+  end
+
+  def difference_of_points
+    minus_result.abs
+  end
+
+  def is_finish
+    is_advantage_player and difference_of_points >= 2
   end
 
   def is_advantage_player
