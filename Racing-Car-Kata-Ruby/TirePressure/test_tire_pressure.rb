@@ -1,6 +1,6 @@
 require "test/unit"
 
-require 'tire_pressure'
+require './tire_pressure'
 
 class TestAlarm < Test::Unit::TestCase
  
