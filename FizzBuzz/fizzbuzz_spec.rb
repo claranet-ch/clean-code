@@ -1,10 +1,12 @@
-
+require_relative 'fizz_buzz'
 require 'rspec'
 
 describe "FizzBuzz" do
 
-  it 'should something' do
-    expect(1).to eq(2)
+  let(:fizzBuzz) { FizzBuzz.new }
+
+  it 'plain numbers' do
+    expect(fizzBuzz.say(1)).to eq("1")
   end
 
 end
