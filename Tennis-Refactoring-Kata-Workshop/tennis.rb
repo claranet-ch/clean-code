@@ -17,42 +17,67 @@ class TennisGame1
   end
   
   def score
-    result = ""
-    tempScore=0
-    if (@p1points==@p2points)
-      result = {
-          0 => "Love-All",
-          1 => "Fifteen-All",
-          2 => "Thirty-All",
-      }.fetch(@p1points, "Deuce")
-    elsif (@p1points>=4 or @p2points>=4)
-      minusResult = @p1points-@p2points
-      if (minusResult==1)
-        result ="Advantage player1"
-      elsif (minusResult ==-1)
-        result ="Advantage player2"
-      elsif (minusResult>=2)
-        result = "Win for player1"
-      else
-        result ="Win for player2"
-      end
+    if (isDraw)
+      computeDrawScore
+    elsif (isAdvantage)
+      computeAdvantageScore
     else
-      (1...3).each do |i|
-        if (i==1)
-          tempScore = @p1points
-        else
-          result+="-"
-          tempScore = @p2points
-        end
-        result += {
-            0 => "Love",
-            1 => "Fifteen",
-            2 => "Thirty",
-            3 => "Forty",
-        }[tempScore]
+      computeOngoingScore
+    end
+  end
+
+  private
+
+  def computeOngoingScore
+    result = ""
+    (1...3).each do |i|
+      if i == 1
+        result += getPoint(@p1points)
+      else
+        result += "-"
+        result += getPoint(@p2points)
       end
     end
     result
+  end
+
+  def getPoint(p_points)
+    {
+      0 => "Love",
+      1 => "Fifteen",
+      2 => "Thirty",
+      3 => "Forty",
+    }[p_points]
+  end
+
+  def computeAdvantageScore
+    minusResult = @p1points - @p2points
+    if (minusResult == 1)
+      result = "Advantage player1"
+    elsif (minusResult == -1)
+      result = "Advantage player2"
+    elsif (minusResult >= 2)
+      result = "Win for player1"
+    else
+      result = "Win for player2"
+    end
+    result
+  end
+
+  def computeDrawScore
+    {
+      0 => "Love-All",
+      1 => "Fifteen-All",
+      2 => "Thirty-All",
+    }.fetch(@p1points, "Deuce")
+  end
+
+  def isAdvantage
+    @p1points >= 4 or @p2points >= 4
+  end
+
+  def isDraw
+    @p1points == @p2points
   end
 end
 
