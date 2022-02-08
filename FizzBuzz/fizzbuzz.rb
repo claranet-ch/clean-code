@@ -1,6 +1,9 @@
 class FizzBuzz
 
   def say number
+    if is_multiple_of(number, 3) && is_multiple_of(number,5)
+      return "FizzBuzz"
+    end
     if is_multiple_of(number, 3)
       return "Fizz"
     end
