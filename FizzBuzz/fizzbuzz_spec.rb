@@ -8,5 +8,11 @@ describe "FizzBuzz" do
     expect(fb.say(1)).to eq("1")
   end
 
+  it 'for numbers multiple of three I should say "Fizz" ' do
+    fb = FizzBuzz.new
+    expect(fb.say(3)).to eq("Fizz")
+    expect(fb.say(6)).to eq("Fizz")
+  end
+
 
 end
